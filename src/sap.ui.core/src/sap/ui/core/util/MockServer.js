@@ -914,11 +914,13 @@ sap.ui
 						var aNavEntry = oRecord[sNavProp].results || oRecord[sNavProp];
 						if (!aNavEntry || !!aNavEntry.__deferred) {
 							aNavEntry = jQuery.extend(true, [], that._resolveNavigation(sEntitySetName, oRecord, sNavProp, oRecord));
+						} else if (jQuery.isEmptyObject(aNavEntry)) {
+							aNavEntry = [];
 						} else if (!jQuery.isArray(aNavEntry)) {
 							aNavEntry = [aNavEntry];
 						}
 
-						if (!!aNavEntry && aNavProps.length > 1) {
+						if (aNavEntry.length > 0 && aNavProps.length > 1) {
 							var sRestNavProps = aNavProps.splice(1, aNavProps.length).join("/");
 							aNavEntry = that._getOdataQueryExpand(aNavEntry, sRestNavProps,
 								oEntitySetNavProps[sNavProp].to.entitySet);
